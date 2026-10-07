@@ -188,6 +188,12 @@ h2{font-size:clamp(24px,3vw,32px); letter-spacing:-.6px; font-weight:800}
 .dial-btns button:hover{border-color:var(--pa)}
 .dial-read{font-size:15px; color:var(--muted)}
 .dial-read strong{color:var(--text); font-size:22px}
+.dial-ctrl input[type=range]{width:230px; accent-color:#a78bfa; cursor:pointer}
+.pen-demo svg{width:104px; height:auto; display:block}
+#penDoseWin{transform-box:fill-box; transform-origin:center}
+.pen-pulse{animation:pen-pulse .45s ease}
+@keyframes pen-pulse{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){ .pen-pulse{animation:none} }
 /* calculator */
 .calc{border:1px solid var(--line); border-radius:var(--radius); padding:22px; background:linear-gradient(180deg,var(--card),var(--card2))}
 .calc label{display:block; font-size:13px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--faint); margin:14px 0 8px}
@@ -285,7 +291,7 @@ footer strong{color:var(--muted)}
     <a href="#ch10"><span class="n">10</span>Safety</a>
     <a href="#ch11"><span class="n">11</span>First use</a>
     <a href="#ch12"><span class="n">12</span>Travel</a>
-    <a href="#ch13"><span class="n">13</span>USA vs Alibaba</a>
+    <a href="#ch13"><span class="n">13</span>Amazon vs AliExpress</a>
     <a href="#ch14"><span class="n">14</span>Quick ref</a>
     <a href="#ch15"><span class="n">✦</span>Quiz</a>
   </nav>
@@ -302,7 +308,7 @@ footer strong{color:var(--muted)}
 <div class="side-backdrop" id="sideBackdrop"></div>
 <main>
 <div class="mrail" id="mrail">
-  <a href="#ch1">01 · Overview</a><a href="#ch2">02 · Who</a><a href="#ch3">03 · Equipment</a><a href="#ch4">04 · Filling</a><a href="#ch5">05 · Assembly</a><a href="#ch6">06 · Priming</a><a href="#ch7">07 · Dial</a><a href="#ch8">08 · Concentration</a><a href="#ch9">09 · Mistakes</a><a href="#ch10">10 · Safety</a><a href="#ch11">11 · First use</a><a href="#ch12">12 · Travel</a><a href="#ch13">13 · USA/Alibaba</a><a href="#ch14">14 · Quick ref</a><a href="#ch15">✦ · Quiz</a>
+  <a href="#ch1">01 · Overview</a><a href="#ch2">02 · Who</a><a href="#ch3">03 · Equipment</a><a href="#ch4">04 · Filling</a><a href="#ch5">05 · Assembly</a><a href="#ch6">06 · Priming</a><a href="#ch7">07 · Dial</a><a href="#ch8">08 · Concentration</a><a href="#ch9">09 · Mistakes</a><a href="#ch10">10 · Safety</a><a href="#ch11">11 · First use</a><a href="#ch12">12 · Travel</a><a href="#ch13">13 · Amazon/AliExpress</a><a href="#ch14">14 · Quick ref</a><a href="#ch15">✦ · Quiz</a>
 </div>
 <div class="wrap">
 
@@ -391,8 +397,8 @@ footer strong{color:var(--muted)}
           <rect x="265" y="80" width="14" height="36" rx="0" fill="#22d3ee88" class="d-rise"/>
         </g>
         <path d="M140 115 L 195 103" stroke="#22d3ee" stroke-width="2.5" class="flow"/>
-        <text x="168" y="88" text-anchor="middle" font-size="11" class="d-label">LIQUID ENTERS</text>
-        <text x="470" y="40" text-anchor="middle" font-size="13" class="dm">cartridge</text>
+        <text x="167" y="152" text-anchor="middle" font-size="11" class="d-label">LIQUID ENTERS</text>
+        <text x="398" y="150" text-anchor="end" font-size="13" class="dm">cartridge</text>
         <rect x="410" y="50" width="120" height="150" rx="10" fill="#ffffff08" stroke="#a78bfa" stroke-width="2"/>
         <rect id="cartFill" x="410" y="200" width="120" height="0" fill="#a78bfa55">
           <animate attributeName="y" values="200;90" dur="5s" repeatCount="indefinite"/>
@@ -404,11 +410,11 @@ footer strong{color:var(--muted)}
         <path d="M279 100 L 410 100" stroke="#22d3ee" stroke-width="2.5" class="flow"/>
         <text x="345" y="88" text-anchor="middle" font-size="11" class="d-label">LIQUID ENTERS</text>
         <g font-size="11" class="dm">
-          <text x="470" y="22" text-anchor="middle" fill="#f59e0b">VENT</text>
-          <text x="500" y="22" text-anchor="middle" fill="#22d3ee">FILL</text>
+          <text x="458" y="20" text-anchor="end" fill="#f59e0b" font-weight="800">VENT</text>
+          <text x="512" y="20" text-anchor="start" fill="#22d3ee" font-weight="800">FILL</text>
         </g>
-        <circle cx="470" cy="14" r="4" fill="#f59e0b" class="d-rise"/>
-        <circle cx="470" cy="14" r="4" fill="#f59e0b" class="d-rise" style="animation-delay:1.3s"/>
+        <circle cx="470" cy="44" r="4" fill="#f59e0b" class="d-rise"/>
+        <circle cx="470" cy="44" r="4" fill="#f59e0b" class="d-rise" style="animation-delay:1.3s"/>
         <text x="586" y="100" font-size="11" class="d-label">AIR</text>
         <text x="586" y="114" font-size="11" class="d-label">EXITS</text>
         <path d="M560 90 L 600 60" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 3" class="d-flow-slow"/>
@@ -569,11 +575,27 @@ footer strong{color:var(--muted)}
           <div class="dial-pointer" id="dialPointer" style="transform:rotate(0deg)"></div>
           <div class="dial-hub" id="dialHub">0</div>
         </div>
+        <div class="pen-demo" role="img" aria-label="Animated pen illustration showing the selected dose">
+          <svg viewBox="0 0 120 300">
+            <rect x="38" y="12" width="44" height="212" rx="20" fill="#16121b" stroke="#3d3248" stroke-width="2"/>
+            <rect x="48" y="26" width="24" height="14" rx="7" fill="#0e0b12" stroke="#3d3248" stroke-width="1.5"/>
+            <g id="penDoseWin">
+              <rect x="44" y="48" width="32" height="26" rx="7" fill="#0e0b12" stroke="#a78bfa" stroke-width="2"/>
+              <text id="penDoseTxt" x="60" y="66" text-anchor="middle" font-size="13" font-weight="800" fill="#f8f5fc">0</text>
+            </g>
+            <rect x="44" y="84" width="32" height="100" rx="8" fill="none" stroke="#3d3248" stroke-width="1.5"/>
+            <rect id="penLiquid" x="47" y="181" width="26" height="0" fill="#a78bfa" opacity=".55"/>
+            <rect id="penPlunger" x="54" y="224" width="12" height="16" rx="4" fill="#22d3ee"/>
+            <line x1="60" y1="240" x2="60" y2="266" stroke="#3d3248" stroke-width="3"/>
+            <text x="60" y="290" text-anchor="middle" font-size="10.5" font-weight="800" letter-spacing="1.2" fill="#716a80">PEN</text>
+          </svg>
+        </div>
         <div class="dial-ctrl">
           <div class="dial-btns">
             <button id="dialMinus" aria-label="Decrease dose">−</button>
             <button id="dialPlus" aria-label="Increase dose">+</button>
           </div>
+          <input type="range" id="dialSlider" min="0" max="60" step="1" value="0" aria-label="Dose units slider">
           <p class="dial-read">Selected: <strong><span id="dialVal">0</span> units</strong></p>
           <p style="font-size:13.5px; max-width:30ch">Once assembled and primed, the dial selects your dose. <strong>Overshot?</strong> Many pens let you dial back down — <strong>check your device</strong>.</p>
         </div>
@@ -683,18 +705,18 @@ footer strong{color:var(--muted)}
 
   <!-- 13 -->
   <section class="chapter" id="ch13">
-    <div class="ch-head"><span class="ch-num">13</span><h2>USA vs Alibaba</h2></div>
+    <div class="ch-head"><span class="ch-num">13</span><h2>Amazon vs AliExpress</h2></div>
     <p class="ch-sub">Where people look for pens and cartridges — neutrally framed.</p>
     <div class="grid c2">
       <div class="card pa rv">
         <span class="tier info">General info</span>
-        <h3>🇺🇸 Need it quickly? — USA</h3>
+        <h3>📦 Need it quickly? — Amazon</h3>
         <p><strong>Potential advantages:</strong></p>
         <ul><li>Faster shipping</li><li>Easier returns and support, depending on the seller</li><li>Potentially easier verification of product specifications</li></ul>
       </div>
       <div class="card pb rv">
         <span class="tier info">General info</span>
-        <h3>🌏 Planning ahead? — Alibaba</h3>
+        <h3>🌏 Planning ahead? — AliExpress</h3>
         <p><strong>Potential advantages:</strong></p>
         <ul><li>Potentially lower prices</li><li>More supplier options</li></ul>
       </div>
@@ -782,11 +804,14 @@ const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W,H,D;
   function size(){W=c.width=innerWidth;H=c.height=innerHeight;}
   size(); addEventListener('resize',size);
-  D=Array.from({length:140},()=>({x:Math.random()*W,y:Math.random()*H,r:1.4+Math.random()*2.2,o:.30+Math.random()*.35,ph:Math.random()*6.28,sp:.004+Math.random()*.008,c:COLS[Math.random()*COLS.length|0]}));
+  D=Array.from({length:140},()=>({x:Math.random()*W,y:Math.random()*H,r:1.4+Math.random()*2.2,o:.30+Math.random()*.35,ph:Math.random()*6.28,sp:.004+Math.random()*.008,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.28,c:COLS[Math.random()*COLS.length|0]}));
   (function tick(t){
     x.clearRect(0,0,W,H);
     for(const d of D){
-      const tw=.6+.4*Math.sin(t*d.sp+d.ph);
+      d.x+=d.vx; d.y+=d.vy;
+      if(d.x<-12)d.x=W+12; if(d.x>W+12)d.x=-12;
+      if(d.y<-12)d.y=H+12; if(d.y>H+12)d.y=-12;
+      const tw=.5+.5*Math.sin(t*d.sp+d.ph);
       x.globalAlpha=d.o*tw; x.fillStyle=d.c;
       x.beginPath(); x.arc(d.x,d.y,d.r,0,6.28); x.fill();
     }
@@ -899,17 +924,28 @@ function close(){document.body.classList.remove('side-open');}
   };
   paint();
 })();
-/* dose dial */
+/* dose dial + slider + pen animation */
 (function(){
   let units=0;
-  const ptr=$('dialPointer'), hub=$('dialHub'), val=$('dialVal');
-  function render(){
+  const ptr=$('dialPointer'), hub=$('dialHub'), val=$('dialVal'), slider=$('dialSlider');
+  const liq=$('penLiquid'), plg=$('penPlunger'), dtxt=$('penDoseTxt'), dwin=$('penDoseWin');
+  function render(pulse){
     ptr.style.transform='rotate('+(units*6)+'deg)';
-    hub.textContent=units; val.textContent=units;
+    hub.textContent=units; val.textContent=units; slider.value=units;
+    const f=units/60;
+    liq.setAttribute('y',(181-f*97).toFixed(1)); liq.setAttribute('height',(f*97).toFixed(1));
+    plg.setAttribute('y',(224+f*22).toFixed(1));
+    dtxt.textContent=units;
+    if(pulse && !REDUCED){
+      dwin.classList.remove('pen-pulse');
+      requestAnimationFrame(()=>requestAnimationFrame(()=>dwin.classList.add('pen-pulse')));
+    }
   }
-  $('dialPlus').onclick=()=>{ if(units<60){units++;render();} };
-  $('dialMinus').onclick=()=>{ if(units>0){units--;render();} };
-  render();
+  function set(u){ u=Math.max(0,Math.min(60,Math.round(u))); if(u!==units){ units=u; render(true); } }
+  $('dialPlus').onclick=()=>set(units+1);
+  $('dialMinus').onclick=()=>set(units-1);
+  slider.addEventListener('input',()=>set(parseInt(slider.value,10)));
+  render(false);
 })();
 /* concentration calculator */
 (function(){
