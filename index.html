@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peptide Refillable Pens Guide — From Vials &amp; Syringes to a Refillable Pen System</title>
+<script>try{var __t=localStorage.getItem('penpals-theme');if(__t==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}</script>
+<style>
+*{box-sizing:border-box; margin:0; padding:0}
+:root{
+  --bg:#0b0a0e; --bg2:#100d13; --card:#16121b; --card2:#0e0b12;
+  --line:#2c2534; --line2:#3d3248;
+  --text:#f8f5fc; --muted:#aaa2b8; --faint:#716a80;
+  --pa:#a78bfa; --pb:#22d3ee; --lime:#a3e635;
+  --accent:var(--pa); --radius:16px;
+}
+[data-theme="light"]{
+  --bg:#f2f0f4; --bg2:#e7e3ec; --card:#ffffff; --card2:#f4f2f7;
+  --line:#d6d0de; --line2:#c2b9cd;
+  --text:#1c1724; --muted:#5b5368; --faint:#8b8299;
+  --pa:#7c3aed; --pb:#0e7490; --lime:#4d7c0f;
+}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none!important; transition:none!important} }
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.65; font-size:16px; overflow-x:hidden;
+  background-image:radial-gradient(1100px 520px at 8% -5%, #a78bfa12 0%, transparent 60%),
+                   radial-gradient(900px 480px at 96% 8%, #22d3ee10 0%, transparent 55%);
+}
+[data-theme="light"] body{background-image:radial-gradient(1100px 520px at 8% -5%, #7c3aed10 0%, transparent 60%),radial-gradient(900px 480px at 96% 8%, #0e749010 0%, transparent 55%)}
+::selection{background:#a78bfa55}
+#progress{position:fixed; top:0; left:0; right:0; height:3px; z-index:300; pointer-events:none}
+#progressFill{height:100%; width:0; background:linear-gradient(90deg,var(--pa),var(--pb)); border-radius:0 3px 3px 0}
+#bg-dots{position:fixed; inset:0; z-index:0; pointer-events:none}
+.shell{display:flex; min-height:100vh; position:relative; z-index:1}
+.sidebar{
+  position:fixed; top:0; left:0; bottom:0; width:252px; z-index:100;
+  background:rgba(11,10,14,.94); backdrop-filter:blur(10px); border-right:1px solid var(--line);
+  display:flex; flex-direction:column; padding:24px 16px; gap:6px;
+  transition:transform .32s ease, background-color .45s ease, border-color .45s ease;
+}
+[data-theme="light"] .sidebar{background:rgba(242,240,244,.94)}
+.side-brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:15px; padding:2px 8px 14px}
+.side-brand .drop{width:32px; height:32px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--pa),var(--pb)); font-size:17px; flex:0 0 auto}
+.sidenav{display:flex; flex-direction:column; gap:3px; position:relative; overflow-y:auto; scrollbar-width:thin; padding-bottom:4px}
+.side-indicator{position:absolute; left:-16px; top:0; width:4px; height:40px; border-radius:2px; background:linear-gradient(180deg,var(--pa),var(--pb)); box-shadow:0 0 12px #a78bfa88; opacity:0; transition:top .38s cubic-bezier(.2,.7,.2,1), height .38s cubic-bezier(.2,.7,.2,1), opacity .3s ease; pointer-events:none}
+.sidenav a{display:flex; align-items:center; gap:10px; color:var(--muted); text-decoration:none; font-size:13px; font-weight:600; padding:8px 12px; border-radius:10px; border:1px solid transparent; flex:0 0 auto}
+.sidenav a .n{font-size:10.5px; font-weight:800; color:var(--faint); background:#ffffff0c; border-radius:6px; padding:3px 7px; flex:0 0 auto}
+.sidenav a:hover{color:var(--text); background:#ffffff0c}
+.sidenav a.active{color:var(--text); background:#a78bfa12; border-color:#a78bfa44}
+.sidenav a.active .n{color:var(--pa); background:#a78bfa22}
+[data-theme="light"] .sidenav a:hover{background:rgba(30,22,34,.06)}
+.side-foot{margin-top:auto; display:flex; align-items:center; gap:10px; padding:8px}
+.side-foot span{font-size:12.5px; color:var(--faint); font-weight:600}
+.side-progress{padding:14px 10px 6px; margin-top:8px; border-top:1px solid var(--line)}
+.sp-head{display:flex; justify-content:space-between; align-items:baseline; font-size:11px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; color:var(--faint); margin-bottom:8px}
+.sp-head #sidePct{color:var(--pa); font-size:13px; letter-spacing:0}
+.sp-bar{height:6px; border-radius:3px; background:#ffffff10; overflow:hidden}
+.sp-bar #sideFill{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--pa),var(--pb)); border-radius:3px}
+[data-theme="light"] .sp-bar{background:rgba(30,22,34,.09)}
+.theme-btn{width:40px; height:40px; border-radius:50%; border:1px solid var(--line); background:#ffffff0c; color:var(--text); font-size:18px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto; transition:opacity .5s ease, transform .25s ease, background-color .4s ease}
+.theme-btn:hover{transform:scale(1.1)}
+.theme-btn.dim{opacity:.32}
+.theme-btn.dim:hover{opacity:1}
+.menu-btn{position:fixed; top:12px; left:12px; z-index:190; width:42px; height:42px; border-radius:12px; background:rgba(11,10,14,.88); backdrop-filter:blur(8px); border:1px solid var(--line); color:var(--text); font-size:18px; cursor:pointer; display:none; align-items:center; justify-content:center}
+.side-backdrop{position:fixed; inset:0; background:#000a; z-index:150; opacity:0; pointer-events:none; transition:opacity .3s ease}
+body.side-open .side-backdrop{opacity:1; pointer-events:auto}
+main{flex:1; min-width:0; padding-left:252px}
+.wrap{max-width:1060px; margin:0 auto; padding:0 32px}
+.mrail{display:none; position:sticky; top:0; z-index:90; background:rgba(11,10,14,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); overflow-x:auto; scrollbar-width:none; padding:10px 16px; gap:8px}
+[data-theme="light"] .mrail{background:rgba(242,240,244,.92)}
+.mrail::-webkit-scrollbar{display:none}
+.mrail a{flex:0 0 auto; color:var(--muted); text-decoration:none; font-size:12.5px; font-weight:700; padding:7px 12px; border-radius:999px; border:1px solid var(--line); white-space:nowrap}
+.mrail a.active{color:#14101c; background:linear-gradient(135deg,var(--pa),var(--pb)); border-color:transparent}
+.hero{padding:72px 0 26px; position:relative}
+.kicker{display:inline-block; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; color:var(--pa); border:1px solid #a78bfa55; background:#a78bfa12; padding:8px 16px; border-radius:999px; margin-bottom:20px}
+h1{font-size:clamp(34px,5vw,56px); line-height:1.08; letter-spacing:-1.5px; font-weight:900; margin-bottom:10px}
+h1 .t-a{color:var(--pa)}
+h1 .t-b{color:var(--pb)}
+.hero .qline{font-size:clamp(19px,2.6vw,26px); font-weight:800; letter-spacing:-.5px; margin-bottom:16px; background:linear-gradient(92deg,var(--pa),var(--pb)); -webkit-background-clip:text; background-clip:text; color:transparent; display:inline-block}
+[data-theme="light"] .hero .qline{background:linear-gradient(92deg,#7c3aed,#0e7490); -webkit-background-clip:text; background-clip:text; color:transparent}
+.hero p.lead{font-size:18px; color:var(--muted); max-width:62ch}
+.hero p.lead strong{color:var(--text)}
+.excite{position:relative; display:flex; gap:18px; align-items:center; border-radius:var(--radius); padding:22px 26px; margin:8px 0 4px; background:linear-gradient(180deg,var(--card),var(--card2)); overflow:hidden}
+.excite::before{content:""; position:absolute; inset:0; border-radius:var(--radius); padding:2px; background:linear-gradient(120deg,var(--pa),var(--pb)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none}
+.excite-emoji{font-size:44px; flex:0 0 auto; animation:excite-bounce 1.6s ease-in-out infinite}
+@keyframes excite-bounce{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-8px) rotate(6deg)}}
+@media (prefers-reduced-motion: reduce){ .excite-emoji{animation:none} }
+.excite h3{font-size:22px; font-weight:900; letter-spacing:-.4px; margin-bottom:4px; background:linear-gradient(92deg,var(--pa),var(--pb)); -webkit-background-clip:text; background-clip:text; color:transparent}
+[data-theme="light"] .excite h3{background:linear-gradient(92deg,#7c3aed,#0e7490); -webkit-background-clip:text; background-clip:text; color:transparent}
+.excite p{color:var(--muted); font-size:15.5px; margin:0}
+.excite p strong{color:var(--text)}
+.disclaimer{border:1px solid #a78bfa44; background:#a78bfa0d; border-radius:var(--radius); padding:18px 22px; font-size:14px; color:var(--muted); margin:26px 0}
+.disclaimer strong{color:var(--pa)}
+section.chapter{padding:40px 0 8px; scroll-margin-top:16px}
+.ch-head{display:flex; align-items:center; gap:14px; margin-bottom:6px}
+.ch-num{flex:0 0 auto; min-width:52px; height:40px; padding:0 14px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; font-weight:900; font-size:15px; color:#14101c; background:linear-gradient(135deg,var(--pa),var(--pb))}
+h2{font-size:clamp(24px,3vw,32px); letter-spacing:-.6px; font-weight:800}
+.ch-sub{color:var(--muted); margin:2px 0 22px; max-width:72ch}
+.ch-sub strong{color:var(--text)}
+.card{background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--line); border-radius:var(--radius); padding:24px; transition:background-color .45s ease, border-color .45s ease}
+.card.pa{border-top:3px solid var(--pa)}
+.card.pb{border-top:3px solid var(--pb)}
+.card h3{font-size:17px; margin-bottom:8px}
+.card p{color:var(--muted); font-size:15px; margin:8px 0}
+.card p strong, .card li strong{color:var(--text)}
+.card ul{margin:10px 0 4px 20px; color:var(--muted); font-size:15px}
+.card li{margin:6px 0}
+.grid{display:grid; gap:16px}
+.grid.c2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.grid.c3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.warn{border-left:4px solid var(--pa); background:#a78bfa0d; border-radius:0 14px 14px 0; padding:18px 22px; font-size:15.5px; color:var(--muted); margin:14px 0}
+.warn strong{color:var(--text)}
+.bigline{font-size:clamp(20px,2.6vw,26px); font-weight:800; letter-spacing:-.4px; line-height:1.45}
+.bigline .hl-a{color:var(--pa)}
+.bigline .hl-b{color:var(--pb)}
+/* evidence-tier pills */
+.tier{display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; padding:4px 10px; border-radius:999px; margin-bottom:10px}
+.tier.fact{background:#a3e6351c; color:#a3e635; border:1px solid #a3e63555}
+.tier.mfr{background:#22d3ee1c; color:var(--pb); border:1px solid #22d3ee55}
+.tier.info{background:#a78bfa1c; color:var(--pa); border:1px solid #a78bfa55}
+.tier.ex{background:#f59e0b1c; color:#f59e0b; border:1px solid #f59e0b55}
+/* equipment */
+.eq-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px}
+.eq{position:relative; border-radius:14px; padding:20px 18px 16px; background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--line); font-size:14px; color:var(--muted)}
+.eq .eico{font-size:30px; display:block; margin-bottom:8px}
+.eq strong{display:block; color:var(--text); font-size:14.5px; margin-bottom:4px}
+.eq .ebadge{position:absolute; top:12px; right:12px; font-size:10px; font-weight:800; letter-spacing:1px; text-transform:uppercase; padding:3px 9px; border-radius:999px}
+.eq.transfer .ebadge{background:#22d3ee1c; color:var(--pb); border:1px solid #22d3ee55}
+.eq.inject .ebadge{background:#a78bfa1c; color:var(--pa); border:1px solid #a78bfa55}
+/* steps */
+.step{display:flex; gap:16px; border-radius:14px; padding:18px 20px; background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--line); margin:10px 0}
+.step .sn{flex:0 0 auto; width:38px; height:38px; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; font-weight:900; color:#14101c; background:linear-gradient(135deg,var(--pa),var(--pb))}
+.step h3{font-size:16px; margin-bottom:4px}
+.step p{color:var(--muted); font-size:14.5px; margin:4px 0}
+/* diagrams */
+.diagram{background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--line); border-radius:16px; padding:22px 24px 18px; margin:36px 0 4px}
+.d-title{font-size:13px; font-weight:800; letter-spacing:1.6px; text-transform:uppercase; color:var(--faint); margin-bottom:8px}
+.diagram svg{width:100%; height:auto; display:block}
+.diagram text{font-family:inherit}
+.dt{fill:var(--text); font-weight:700}
+.dm{fill:var(--muted)}
+.d-cap{font-size:13.5px; color:var(--muted); margin-top:10px}
+.d-cap strong{color:var(--text)}
+.flow{stroke-dasharray:7 7; animation:d-dash 1.1s linear infinite}
+@keyframes d-dash{to{stroke-dashoffset:-28}}
+.d-flow-slow{stroke-dasharray:7 7; animation:d-dash 2.6s linear infinite}
+.d-pulse{transform-box:fill-box; transform-origin:center; animation:d-pulse 2.6s ease-in-out infinite}
+@keyframes d-pulse{0%,100%{opacity:.55; transform:scale(1)}50%{opacity:1; transform:scale(1.08)}}
+.d-bob{transform-box:fill-box; transform-origin:center; animation:d-bob 3s ease-in-out infinite}
+@keyframes d-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.d-label{font-size:10.5px; font-weight:800; letter-spacing:1.2px; fill:var(--faint)}
+.d-drop{animation:d-drop 2.2s ease-in infinite}
+@keyframes d-drop{0%{transform:translateY(0); opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:translateY(26px); opacity:0}}
+.d-rise{animation:d-rise 4s ease-in-out infinite}
+@keyframes d-rise{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.d-stage{animation:d-stage 13.5s ease-in-out infinite}
+@keyframes d-stage{0%,100%{opacity:.25}3%,9%{opacity:1}14%{opacity:.25}}
+/* mistakes */
+.dont-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px}
+.dont{border-radius:14px; padding:16px 18px; background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--line); font-size:14px; color:var(--muted); display:flex; gap:12px; align-items:flex-start}
+.dont .dx{flex:0 0 auto; width:28px; height:28px; border-radius:50%; background:#f8717122; color:#f87171; font-weight:900; display:inline-flex; align-items:center; justify-content:center}
+.dont strong{display:block; color:var(--text); margin-bottom:2px}
+/* checklist */
+.checklist{border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:linear-gradient(180deg,var(--card),var(--card2))}
+.chk{display:flex; gap:14px; align-items:flex-start; padding:13px 20px; border-bottom:1px solid var(--line); cursor:pointer; font-size:15px; color:var(--muted); user-select:none}
+.chk:last-child{border-bottom:none}
+.chk input{appearance:none; flex:0 0 auto; width:22px; height:22px; margin-top:2px; border-radius:7px; border:2px solid var(--line2); background:transparent; cursor:pointer; position:relative; transition:all .2s}
+.chk input:checked{background:linear-gradient(135deg,var(--pa),var(--pb)); border-color:transparent}
+.chk input:checked::after{content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#14101c; font-weight:900; font-size:14px}
+.chk.done{color:var(--faint); text-decoration:line-through}
+.chk strong{color:var(--text)}
+.chk.done strong{color:var(--faint)}
+.chk-progress{padding:16px 20px; border-top:1px solid var(--line); font-size:14px; color:var(--muted)}
+.chk-bar{height:8px; border-radius:4px; background:#ffffff12; overflow:hidden; margin-top:8px}
+.chk-bar span{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--pa),var(--pb)); border-radius:4px; transition:width .4s ease}
+[data-theme="light"] .chk-bar{background:rgba(30,22,34,.09)}
+/* dial */
+.dial-wrap{display:flex; flex-wrap:wrap; gap:24px; align-items:center; justify-content:center; padding:8px 0}
+.dial{position:relative; width:220px; height:220px; flex:0 0 auto}
+.dial-face{position:absolute; inset:0; border-radius:50%; background:linear-gradient(180deg,var(--card),var(--card2)); border:2px solid var(--line2)}
+.dial-pointer{position:absolute; left:50%; top:50%; width:6px; height:88px; margin-left:-3px; transform-origin:50% 0; border-radius:3px; background:linear-gradient(180deg,var(--pa),var(--pb)); transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.dial-hub{position:absolute; left:50%; top:50%; width:56px; height:56px; margin:-28px 0 0 -28px; border-radius:50%; background:linear-gradient(135deg,var(--pa),var(--pb)); display:flex; align-items:center; justify-content:center; font-weight:900; color:#14101c; font-size:20px}
+.dial-ctrl{display:flex; flex-direction:column; gap:10px; align-items:center; min-width:220px}
+.dial-btns{display:flex; gap:12px}
+.dial-btns button{width:56px; height:56px; border-radius:50%; border:1px solid var(--line); background:#ffffff0c; color:var(--text); font-size:26px; font-weight:800; cursor:pointer}
+.dial-btns button:hover{border-color:var(--pa)}
+.dial-read{font-size:15px; color:var(--muted)}
+.dial-read strong{color:var(--text); font-size:22px}
+/* calculator */
+.calc{border:1px solid var(--line); border-radius:var(--radius); padding:22px; background:linear-gradient(180deg,var(--card),var(--card2))}
+.calc label{display:block; font-size:13px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--faint); margin:14px 0 8px}
+.calc select, .calc input[type=range]{width:100%}
+.calc select{background:var(--card2); color:var(--text); border:1px solid var(--line2); border-radius:10px; padding:12px 14px; font:inherit; font-size:15px}
+.calc-out{margin-top:18px; border-radius:12px; padding:16px 20px; background:#a78bfa0d; border:1px dashed #a78bfa55; font-size:15px; color:var(--muted)}
+.calc-out strong{color:var(--text)}
+.calc-out .bignum{font-size:26px; font-weight:900; color:var(--pa)}
+/* workflow stages */
+.wf{display:flex; flex-direction:column; gap:0}
+.wf-stage{display:flex; gap:16px; padding:14px 18px; border:1px solid var(--line); background:linear-gradient(180deg,var(--card),var(--card2)); cursor:pointer; align-items:flex-start}
+.wf-stage:first-child{border-radius:14px 14px 0 0}
+.wf-stage:last-child{border-radius:0 0 14px 14px}
+.wf-stage + .wf-stage{border-top:none}
+.wf-stage .wn{flex:0 0 auto; width:34px; height:34px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-weight:900; font-size:14px; background:#ffffff0c; border:1px solid var(--line2); color:var(--muted)}
+.wf-stage.open .wn{background:linear-gradient(135deg,var(--pa),var(--pb)); color:#14101c; border-color:transparent}
+.wf-stage h3{font-size:15.5px}
+.wf-stage .wx{font-size:14px; color:var(--muted); max-height:0; overflow:hidden; transition:max-height .35s ease}
+.wf-stage.open .wx{max-height:120px}
+.wf-arrow{text-align:center; color:var(--faint); font-size:18px; line-height:1; padding:2px 0}
+/* cheat sheet */
+.cheat{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px}
+.cheat .ch{background:linear-gradient(180deg,var(--card),var(--card2)); border:1px solid var(--line); border-radius:14px; padding:16px 18px; font-size:14px; color:var(--muted)}
+.cheat .ch h3{font-size:14px; margin-bottom:8px; color:var(--pa)}
+.cheat .ch:nth-child(3n+2) h3{color:var(--pb)}
+.cheat .ch:nth-child(3n) h3{color:var(--lime)}
+.cheat .ch p{margin:4px 0}
+.cheat .ch strong{color:var(--text)}
+.quiz{padding:0; overflow:hidden}
+.quiz-toggle{width:100%; display:flex; align-items:center; justify-content:space-between; gap:14px; background:none; border:none; color:var(--text); font:inherit; font-weight:800; font-size:17px; padding:22px 24px; cursor:pointer; text-align:left}
+.quiz-chev{flex:0 0 34px; height:34px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--pa),var(--pb)); color:#14101c; font-size:22px; font-weight:800; transition:transform .25s}
+.quiz.open .quiz-chev{transform:rotate(45deg)}
+.quiz-body{display:grid; grid-template-rows:0fr; transition:grid-template-rows .32s ease}
+.quiz.open .quiz-body{grid-template-rows:1fr}
+.quiz-inner{overflow:hidden; min-height:0}
+.quiz-options{display:grid; gap:10px; padding:2px 24px 4px}
+.quiz-options button{display:flex; align-items:center; gap:12px; text-align:left; background:#ffffff08; border:1px solid var(--line); color:var(--text); padding:13px 18px; border-radius:12px; font:inherit; font-size:15.5px; font-weight:700; cursor:pointer}
+.quiz-options button small{color:var(--muted); font-weight:500; font-size:13.5px}
+.quiz-options button:hover{border-color:var(--pa)}
+.quiz-options button.picked{background:#a78bfa1c; border-color:var(--pa)}
+[data-theme="light"] .quiz-options button{background:rgba(30,22,34,.05)}
+.quiz-thanks{padding:4px 24px 0; color:var(--muted); font-size:14.5px; margin:12px 0 0}
+.quiz-thanks strong{color:var(--text)}
+.quiz-results{padding:2px 24px 24px}
+.qr-head{font-size:13.5px; color:var(--muted); margin:0 0 10px}
+#qrTotal{font-weight:700; color:var(--text)}
+.qr-row{display:grid; grid-template-columns:158px 1fr 118px; gap:12px; align-items:center; padding:7px 0; font-size:14.5px}
+.qr-label{font-weight:700; white-space:nowrap}
+.qr-bar{height:8px; border-radius:4px; background:#ffffff12; overflow:hidden}
+.qr-bar span{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--pa),var(--pb)); border-radius:4px; transition:width .6s ease}
+.qr-pct{color:var(--muted); font-size:13px; text-align:right; white-space:nowrap}
+[data-theme="light"] .qr-bar{background:rgba(30,22,34,.09)}
+.totop-wrap{text-align:center; margin:30px 0 8px}
+.totop{position:relative; display:inline-flex; align-items:center; gap:14px; background:linear-gradient(180deg,var(--card),var(--card2)); border:none; color:var(--text); font:inherit; font-weight:800; font-size:17px; padding:20px 38px; border-radius:16px; cursor:pointer; transition:transform .25s ease}
+.totop:hover{transform:translateY(-3px)}
+.totop::before{content:""; position:absolute; inset:0; border-radius:16px; padding:2px; background:linear-gradient(120deg,var(--pa),var(--pb)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none}
+.tt-arrow{width:38px; height:38px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(135deg,var(--pa),var(--pb)); color:#14101c; font-size:20px; font-weight:900; flex:0 0 auto}
+footer{border-top:1px solid var(--line); margin-top:44px; padding:30px 0 46px; color:var(--faint); font-size:13.5px}
+footer strong{color:var(--muted)}
+.rv{opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease}
+.rv.in{opacity:1; transform:none}
+@media (prefers-reduced-motion: reduce){ .rv{opacity:1; transform:none} }
+@media (min-width:901px){ .menu-btn,.side-backdrop{display:none!important} }
+@media (max-width:900px){
+  main{padding-left:0}
+  .sidebar{transform:translateX(-106%); width:282px; z-index:200}
+  body.side-open .sidebar{transform:none}
+  .menu-btn{display:inline-flex}
+  .mrail{display:flex}
+  .wrap{padding:0 18px}
+  .hero{padding:40px 0 16px}
+  .card{padding:18px 20px}
+  .qr-row{grid-template-columns:1fr auto; row-gap:6px}
+  .qr-bar{grid-column:1/-1; grid-row:2}
+}
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"><div id="progressFill"></div></div>
+<canvas id="bg-dots" aria-hidden="true"></canvas>
+<div class="shell">
+<aside class="sidebar" id="sidebar" aria-label="Site navigation">
+  <div class="side-brand"><span class="drop">💉</span> Pen Guide</div>
+  <nav class="sidenav" id="chapternav">
+    <span class="side-indicator" id="sideIndicator" aria-hidden="true"></span>
+    <a href="#ch1"><span class="n">01</span>Overview</a>
+    <a href="#ch2"><span class="n">02</span>Who it's for</a>
+    <a href="#ch3"><span class="n">03</span>Equipment</a>
+    <a href="#ch4"><span class="n">04</span>Filling</a>
+    <a href="#ch5"><span class="n">05</span>Assembly</a>
+    <a href="#ch6"><span class="n">06</span>Priming</a>
+    <a href="#ch7"><span class="n">07</span>Dose dial</a>
+    <a href="#ch8"><span class="n">08</span>Concentration</a>
+    <a href="#ch9"><span class="n">09</span>Mistakes</a>
+    <a href="#ch10"><span class="n">10</span>Safety</a>
+    <a href="#ch11"><span class="n">11</span>First use</a>
+    <a href="#ch12"><span class="n">12</span>Travel</a>
+    <a href="#ch13"><span class="n">13</span>USA vs Alibaba</a>
+    <a href="#ch14"><span class="n">14</span>Quick ref</a>
+    <a href="#ch15"><span class="n">✦</span>Quiz</a>
+  </nav>
+  <div class="side-progress" aria-hidden="true">
+    <div class="sp-head"><span>Reading</span><span id="sidePct">0%</span></div>
+    <div class="sp-bar"><span id="sideFill"></span></div>
+  </div>
+  <div class="side-foot">
+    <button class="theme-btn" id="themeBtn" aria-label="Switch to light mode" title="Toggle light / dark">🌙</button>
+    <span>Light / dark</span>
+  </div>
+</aside>
+<button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+<div class="side-backdrop" id="sideBackdrop"></div>
+<main>
+<div class="mrail" id="mrail">
+  <a href="#ch1">01 · Overview</a><a href="#ch2">02 · Who</a><a href="#ch3">03 · Equipment</a><a href="#ch4">04 · Filling</a><a href="#ch5">05 · Assembly</a><a href="#ch6">06 · Priming</a><a href="#ch7">07 · Dial</a><a href="#ch8">08 · Concentration</a><a href="#ch9">09 · Mistakes</a><a href="#ch10">10 · Safety</a><a href="#ch11">11 · First use</a><a href="#ch12">12 · Travel</a><a href="#ch13">13 · USA/Alibaba</a><a href="#ch14">14 · Quick ref</a><a href="#ch15">✦ · Quiz</a>
+</div>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="kicker">💉 Device guide</span>
+    <h1><span class="t-a">Peptide Refillable</span> <span class="t-b">Pens Guide</span></h1>
+    <div><span class="qline">From vials &amp; syringes to a refillable pen system</span></div>
+    <p class="lead">A refillable pen moves the same liquid into a <strong>cartridge-based system</strong> — fill once, then dial each dose instead of drawing with a syringe every time. Here's how the whole thing works, in plain language.</p>
+  </div>
+
+  <div class="excite rv">
+    <div class="excite-emoji">💉</div>
+    <div>
+      <h3>Same medication, different workflow</h3>
+      <p>The pen doesn't change what's inside the vial. It changes <strong>how you get it out</strong> — a cartridge, a dial, and a fresh needle each time.</p>
+    </div>
+  </div>
+
+  <div class="disclaimer"><strong>📋 Educational reference only.</strong> This guide explains how refillable pen systems work in general terms. It isn't medical advice, doesn't recommend any product or treatment, and isn't connected to any seller or manufacturer. Always follow your specific pen manufacturer's instructions and ask a qualified professional when unsure.</div>
+
+  <!-- 01 -->
+  <section class="chapter" id="ch1">
+    <div class="ch-head"><span class="ch-num">01</span><h2>Quick overview</h2></div>
+    <p class="ch-sub">Two workflows, same starting point.</p>
+    <div class="grid c2">
+      <div class="card rv">
+        <span class="tier info">General info</span>
+        <h3>🧪 Traditional: vial + syringe</h3>
+        <p><strong>Vial → Draw with syringe → Measure → Inject.</strong> Every dose means a fresh draw: pull liquid from the vial, check the markings, inject, dispose of the syringe.</p>
+      </div>
+      <div class="card rv">
+        <span class="tier info">General info</span>
+        <h3>💉 Refillable pen</h3>
+        <p><strong>Vial → Fill cartridge → Install cartridge → Prime → Dial dose → Inject.</strong> The filling happens once per cartridge; each dose is then selected with a dial.</p>
+      </div>
+    </div>
+    <div class="warn rv"><strong>Reusable devices need proper handling.</strong> Refillable pens require correct cleaning, <strong>compatible cartridges and needles</strong>, and careful attention to sterility. A pen is a different workflow — not automatically a safer or more accurate one than properly used conventional equipment.</div>
+  </section>
+
+  <!-- 02 -->
+  <section class="chapter" id="ch2">
+    <div class="ch-head"><span class="ch-num">02</span><h2>Who is this for?</h2></div>
+    <p class="ch-sub">Everyday situations — not everyone needs a pen.</p>
+    <div class="grid c2">
+      <div class="card pa rv"><h3>😖 People who dislike syringes</h3><p>Someone who finds <strong>repeatedly drawing from a vial</strong> inconvenient and would rather do the transfer step once per cartridge.</p></div>
+      <div class="card pb rv"><h3>✈️ People who travel</h3><p>Someone who wants a <strong>more compact, organized setup</strong> instead of carrying vials, syringes, and measuring gear.</p></div>
+      <div class="card pa rv"><h3>🔁 People who inject regularly</h3><p>Someone who values a <strong>repeatable pen-based routine</strong> — same steps, same dial, every time.</p></div>
+      <div class="card pb rv"><h3>🎯 People who want simpler dose selection</h3><p>Someone who prefers <strong>dialing a number</strong> over carefully drawing liquid up to a syringe marking each time.</p></div>
+      <div class="card pa rv"><h3>🧪 People who already use vials</h3><p>Someone wondering whether <strong>moving vial contents into a compatible cartridge system</strong> makes sense for their situation.</p></div>
+    </div>
+    <div class="warn rv"><strong>Check compatibility first.</strong> Device compatibility, cartridge compatibility, medication stability, sterility, and correct dosing all matter. A pen that doesn't fit your cartridge — or a medication that doesn't stay stable in one — is a non-starter.</div>
+  </section>
+
+  <!-- 03 -->
+  <section class="chapter" id="ch3">
+    <div class="ch-head"><span class="ch-num">03</span><h2>What you'll need</h2></div>
+    <p class="ch-sub">Two kinds of equipment — don't mix them up.</p>
+    <div class="eq-grid">
+      <div class="eq inject rv"><span class="ebadge">Injection</span><span class="eico">🖊️</span><strong>Refillable pen</strong>The reusable device body with the dose dial.</div>
+      <div class="eq transfer rv"><span class="ebadge">Transfer</span><span class="eico">🫙</span><strong>Compatible 3 mL glass cartridge</strong>The refillable container that sits inside the pen. Must match your specific pen.</div>
+      <div class="eq transfer rv"><span class="ebadge">Transfer</span><span class="eico">💉</span><strong>Syringes</strong>Used only to <strong>move liquid from vial to cartridge</strong> — never for injection in this workflow.</div>
+      <div class="eq transfer rv"><span class="ebadge">Transfer</span><span class="eico">📍</span><strong>Needles (transfer)</strong>Typical range <strong>27–30G</strong>; the referenced setup uses <strong>30G, ½ inch</strong>. Not a universal requirement.</div>
+      <div class="eq inject rv"><span class="ebadge">Injection</span><span class="eico">💧</span><strong>Pen needles</strong>Fresh, single-use needles that attach to the pen for each injection.</div>
+      <div class="eq inject rv"><span class="ebadge">Injection</span><span class="eico">🧼</span><strong>Alcohol swabs</strong>For cleaning vial tops, cartridge tops, and the injection site.</div>
+      <div class="eq inject rv"><span class="ebadge">Injection</span><span class="eico">♻️</span><strong>Sharps container</strong>A puncture-proof container for every used needle. No exceptions.</div>
+    </div>
+    <div class="warn rv"><strong>Needle specs aren't one-size-fits-all.</strong> <span class="tier ex">Example</span><br>The 30G, ½-inch needle comes from the referenced video setup. Real requirements depend on the <strong>device, cartridge, medication, and manufacturer instructions</strong> — check yours.</div>
+    <div class="card rv" style="margin-top:14px">
+      <h3>🔀 Transfer vs injection — why it matters</h3>
+      <p>The <strong>transfer syringe</strong> moves liquid from the vial into the cartridge. The <strong>pen needle</strong> delivers the dose into the body. Beginners most often go wrong by confusing the two — keep their jobs separate in your head: <strong>one fills, one injects</strong>.</p>
+    </div>
+  </section>
+
+  <div class="diagram rv">
+    <p class="d-title">What goes where?</p>
+    <svg viewBox="0 0 640 300" role="img" aria-label="Animated diagram: liquid flows from vial through a transfer syringe into a cartridge, while displaced air exits through a vent needle">
+      <g>
+        <text x="110" y="40" text-anchor="middle" font-size="13" class="dm">vial</text>
+        <rect x="80" y="50" width="60" height="90" rx="8" fill="#a78bfa14" stroke="#a78bfa" stroke-width="2"/>
+        <rect x="80" y="95" width="60" height="45" rx="0" fill="#a78bfa55" class="d-rise"/>
+        <rect x="100" y="38" width="20" height="12" rx="3" fill="#2c2534" stroke="#3d3248"/>
+        <text x="230" y="40" text-anchor="middle" font-size="13" class="dm">transfer syringe</text>
+        <g class="d-bob">
+          <rect x="195" y="90" width="70" height="26" rx="6" fill="#151110" stroke="#3d3248" stroke-width="2"/>
+          <rect x="265" y="50" width="14" height="66" rx="4" fill="#22d3ee33" stroke="#22d3ee" stroke-width="2"/>
+          <rect x="265" y="80" width="14" height="36" rx="0" fill="#22d3ee88" class="d-rise"/>
+        </g>
+        <path d="M140 115 L 195 103" stroke="#22d3ee" stroke-width="2.5" class="flow"/>
+        <text x="168" y="88" text-anchor="middle" font-size="11" class="d-label">LIQUID ENTERS</text>
+        <text x="470" y="40" text-anchor="middle" font-size="13" class="dm">cartridge</text>
+        <rect x="410" y="50" width="120" height="150" rx="10" fill="#ffffff08" stroke="#a78bfa" stroke-width="2"/>
+        <rect id="cartFill" x="410" y="200" width="120" height="0" fill="#a78bfa55">
+          <animate attributeName="y" values="200;90" dur="5s" repeatCount="indefinite"/>
+          <animate attributeName="height" values="0;110" dur="5s" repeatCount="indefinite"/>
+        </rect>
+        <rect x="455" y="38" width="30" height="12" rx="3" fill="#2c2534" stroke="#3d3248"/>
+        <line x1="470" y1="50" x2="470" y2="30" stroke="#f59e0b" stroke-width="3"/>
+        <line x1="500" y1="50" x2="500" y2="30" stroke="#22d3ee" stroke-width="3"/>
+        <path d="M279 100 L 410 100" stroke="#22d3ee" stroke-width="2.5" class="flow"/>
+        <text x="345" y="88" text-anchor="middle" font-size="11" class="d-label">LIQUID ENTERS</text>
+        <g font-size="11" class="dm">
+          <text x="470" y="22" text-anchor="middle" fill="#f59e0b">VENT</text>
+          <text x="500" y="22" text-anchor="middle" fill="#22d3ee">FILL</text>
+        </g>
+        <circle cx="470" cy="14" r="4" fill="#f59e0b" class="d-rise"/>
+        <circle cx="470" cy="14" r="4" fill="#f59e0b" class="d-rise" style="animation-delay:1.3s"/>
+        <text x="586" y="100" font-size="11" class="d-label">AIR</text>
+        <text x="586" y="114" font-size="11" class="d-label">EXITS</text>
+        <path d="M560 90 L 600 60" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 3" class="d-flow-slow"/>
+      </g>
+      <text x="320" y="240" text-anchor="middle" font-size="12.5" class="dm">the vent lets <tspan class="dt">displaced air escape</tspan> while liquid fills — air is never pushed into the medication</text>
+      <text x="320" y="262" text-anchor="middle" font-size="12.5" class="dm">filling needle (cyan) sits beside the vent needle (amber)</text>
+    </svg>
+    <p class="d-cap"><strong>Two needles, two jobs.</strong> Liquid goes in through one; the other is just an escape route for air. That's the whole trick.</p>
+  </div>
+
+  <!-- 04 -->
+  <section class="chapter" id="ch4">
+    <div class="ch-head"><span class="ch-num">04</span><h2>Filling the cartridge</h2></div>
+    <p class="ch-sub">Five steps, in order. Slow wins.</p>
+    <div class="step rv"><span class="sn">1</span><div><h3>🧼 Clean the workspace</h3><p><span class="tier mfr">Manufacturer / aseptic technique</span><br>Clean the <strong>vial top, cartridge top, and work surface</strong> according to appropriate aseptic technique. Start clean, stay clean.</p></div></div>
+    <div class="step rv"><span class="sn">2</span><div><h3>💨 Establish the vent</h3><p>Place one needle through the cartridge top to act as the <strong>vent — it lets displaced air escape</strong> while you fill. Watch for the small animated airflow in the diagram below.</p></div></div>
+    <div class="step rv"><span class="sn">3</span><div><h3>💉 Draw the liquid</h3><p>Using the transfer syringe, <strong>draw the required amount of liquid from the vial</strong>. No new math here — use whatever amount your setup calls for.</p></div></div>
+    <div class="step rv"><span class="sn">4</span><div><h3>🐢 Fill the cartridge slowly</h3><p>Insert the filling needle <strong>beside the vent</strong> and push the liquid in gently. Liquid enters, air exits. <strong>Go slowly</strong> — rushing creates bubbles and pressure.</p></div></div>
+    <div class="step rv"><span class="sn">5</span><div><h3>🔍 Remove the needles &amp; inspect</h3><p><span class="tier fact">Established fact</span><br>Check the cartridge for <strong>leaks, damage, excessive bubbles, or anything abnormal</strong> before proceeding. If something looks wrong, stop here.</p></div></div>
+  </section>
+
+  <div class="diagram rv">
+    <p class="d-title">How the vent works — close-up</p>
+    <svg viewBox="0 0 640 320" role="img" aria-label="Close-up diagram of a transparent cartridge: liquid entering downward while displaced air exits upward through the vent">
+      <g>
+        <rect x="230" y="40" width="180" height="220" rx="14" fill="#ffffff06" stroke="#a78bfa" stroke-width="2.5"/>
+        <rect x="230" y="40" width="180" height="220" rx="14" fill="none" stroke="#ffffff22" stroke-width="1" stroke-dasharray="3 4"/>
+        <rect x="236" y="170" width="168" height="84" fill="#a78bfa44">
+          <animate attributeName="y" values="254;96" dur="6s" repeatCount="indefinite"/>
+          <animate attributeName="height" values="0;158" dur="6s" repeatCount="indefinite"/>
+        </rect>
+        <line x1="290" y1="40" x2="290" y2="8" stroke="#22d3ee" stroke-width="4"/>
+        <line x1="350" y1="40" x2="350" y2="8" stroke="#f59e0b" stroke-width="4"/>
+        <text x="290" y="30" text-anchor="middle" font-size="11" fill="#22d3ee" font-weight="800">FILL</text>
+        <text x="350" y="30" text-anchor="middle" font-size="11" fill="#f59e0b" font-weight="800">VENT</text>
+        <g stroke="#22d3ee" stroke-width="2.5" fill="none">
+          <path d="M290 60 L 290 110" class="flow"/>
+          <path d="M290 130 L 290 180" class="flow" style="animation-delay:.5s"/>
+        </g>
+        <text x="200" y="120" text-anchor="end" font-size="12" class="dm">liquid</text>
+        <text x="200" y="136" text-anchor="end" font-size="12" class="dm">entering ↓</text>
+        <g stroke="#f59e0b" stroke-width="2.5" fill="none">
+          <path d="M350 200 L 350 150" stroke-dasharray="4 3" class="d-flow-slow"/>
+          <path d="M350 130 L 350 80" stroke-dasharray="4 3" class="d-flow-slow" style="animation-delay:1s"/>
+        </g>
+        <circle cx="350" cy="60" r="5" fill="#f59e0b" class="d-rise"/>
+        <circle cx="350" cy="60" r="5" fill="#f59e0b" class="d-rise" style="animation-delay:1.5s"/>
+        <text x="440" y="120" font-size="12" class="dm">displaced</text>
+        <text x="440" y="136" font-size="12" class="dm">air exits ↑</text>
+        <text x="320" y="292" text-anchor="middle" font-size="12" class="dm">the vent doesn't sterilize anything — it's just an air escape route</text>
+      </g>
+    </svg>
+    <p class="d-cap"><strong>Conceptual illustration — not to scale.</strong> Liquid displaces air; the vent gives that air somewhere to go.</p>
+  </div>
+
+  <!-- 05 -->
+  <section class="chapter" id="ch5">
+    <div class="ch-head"><span class="ch-num">05</span><h2>Assembling the pen</h2></div>
+    <p class="ch-sub">Four parts, one order.</p>
+  </section>
+
+  <div class="diagram rv">
+    <p class="d-title">Exploded view — components coming together</p>
+    <svg viewBox="0 0 640 340" role="img" aria-label="Exploded view animation: cartridge, cartridge holder, pen body and pen needle assembling in order">
+      <g font-size="13">
+        <g class="d-bob" style="animation-delay:0s">
+          <rect x="60" y="60" width="90" height="150" rx="10" fill="#a78bfa22" stroke="#a78bfa" stroke-width="2.5"/>
+          <rect x="60" y="140" width="90" height="70" fill="#a78bfa55"/>
+          <text x="105" y="240" text-anchor="middle" class="dt">1 · Cartridge</text>
+        </g>
+        <g class="d-bob" style="animation-delay:.7s">
+          <rect x="200" y="60" width="90" height="150" rx="10" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-dasharray="6 4"/>
+          <text x="245" y="240" text-anchor="middle" class="dt">2 · Holder</text>
+        </g>
+        <g class="d-bob" style="animation-delay:1.4s">
+          <rect x="340" y="60" width="90" height="150" rx="24" fill="#151110" stroke="#3d3248" stroke-width="2.5"/>
+          <circle cx="385" cy="110" r="16" fill="none" stroke="#22d3ee" stroke-width="2"/>
+          <text x="385" y="116" text-anchor="middle" font-size="11" class="dm">dial</text>
+          <text x="385" y="240" text-anchor="middle" class="dt">3 · Pen body</text>
+        </g>
+        <g class="d-bob" style="animation-delay:2.1s">
+          <rect x="480" y="100" width="70" height="40" rx="8" fill="#151110" stroke="#3d3248" stroke-width="2.5"/>
+          <line x1="515" y1="100" x2="515" y2="60" stroke="#f59e0b" stroke-width="3"/>
+          <text x="515" y="240" text-anchor="middle" class="dt">4 · Pen needle</text>
+          <text x="515" y="258" text-anchor="middle" font-size="11.5" class="dm">new, every time</text>
+        </g>
+        <g stroke="#a78bfa" stroke-width="2.5" fill="none">
+          <path d="M150 135 L 200 135" class="flow"/>
+          <path d="M290 135 L 340 135" class="flow" style="animation-delay:.6s"/>
+          <path d="M430 135 L 480 120" class="flow" style="animation-delay:1.2s"/>
+        </g>
+      </g>
+      <g font-size="13.5">
+        <text x="105" y="292" text-anchor="middle" font-size="12" class="dm"><tspan class="dt">Insert cartridge</tspan> ↓</text>
+        <text x="245" y="292" text-anchor="middle" font-size="12" class="dm"><tspan class="dt">Secure cartridge</tspan> ↓</text>
+        <text x="385" y="292" text-anchor="middle" font-size="12" class="dm"><tspan class="dt">Attach pen body</tspan> ↓</text>
+        <text x="518" y="292" text-anchor="middle" font-size="12" class="dm"><tspan class="dt">Attach pen needle</tspan></text>
+      </g>
+      <text x="320" y="326" text-anchor="middle" font-size="12.5" class="dm">order matters — cartridge first, needle last</text>
+    </svg>
+    <p class="d-cap"><strong>Compatibility is not universal.</strong> Only use cartridges and needles made for your specific pen — never assume every 3 mL cartridge fits every pen.</p>
+  </div>
+
+  <section class="chapter" id="ch5b" style="padding-top:8px">
+    <div class="warn rv"><span class="tier mfr">Manufacturer instructions</span><br><strong>Only use cartridges and needles compatible with your specific pen.</strong> "3 mL" describes the size, not the fit — threading, seals, and mechanisms differ between devices.</div>
+  </section>
+
+  <!-- 06 -->
+  <section class="chapter" id="ch6">
+    <div class="ch-head"><span class="ch-num">06</span><h2>What does "priming" mean?</h2></div>
+    <p class="ch-sub">The step that clears the path.</p>
+    <div class="card rv">
+      <p class="bigline">Priming <strong>removes air from the pen's pathway</strong> and confirms liquid is reaching the needle <strong>before</strong> an injection.</p>
+      <p>Think of it like running a garden hose for a second before watering — you're making sure what's coming out is liquid, not air.</p>
+    </div>
+  </section>
+
+  <div class="diagram rv">
+    <p class="d-title">Before vs after priming</p>
+    <svg viewBox="0 0 640 300" role="img" aria-label="Before and after diagram: an air gap between cartridge and needle shrinks until liquid reaches the needle and drops appear">
+      <g>
+        <text x="160" y="36" text-anchor="middle" font-size="14" class="dt">Before</text>
+        <rect x="80" y="50" width="90" height="60" rx="8" fill="#a78bfa22" stroke="#a78bfa" stroke-width="2"/>
+        <text x="125" y="84" text-anchor="middle" font-size="11.5" class="dm">cartridge</text>
+        <rect x="170" y="62" width="70" height="36" rx="6" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="4 3"/>
+        <text x="205" y="84" text-anchor="middle" font-size="11" fill="#f59e0b" font-weight="700">AIR GAP</text>
+        <line x1="240" y1="80" x2="240" y2="50" stroke="#3d3248" stroke-width="3"/>
+        <text x="252" y="60" font-size="11.5" class="dm">needle</text>
+        <text x="480" y="36" text-anchor="middle" font-size="14" class="dt">After</text>
+        <rect x="400" y="50" width="90" height="60" rx="8" fill="#a78bfa22" stroke="#a78bfa" stroke-width="2"/>
+        <text x="445" y="84" text-anchor="middle" font-size="11.5" class="dm">cartridge</text>
+        <rect x="490" y="62" width="70" height="36" rx="6" fill="#22d3ee33" stroke="#22d3ee" stroke-width="2"/>
+        <text x="525" y="84" text-anchor="middle" font-size="11" fill="#22d3ee" font-weight="700">LIQUID</text>
+        <line x1="560" y1="80" x2="560" y2="50" stroke="#3d3248" stroke-width="3"/>
+        <circle cx="560" cy="118" r="6" fill="#22d3ee" class="d-drop"/>
+        <circle cx="560" cy="118" r="6" fill="#22d3ee" class="d-drop" style="animation-delay:1.1s"/>
+        <text x="572" y="122" font-size="11.5" class="dm">drops appear</text>
+        <path d="M300 150 L 300 210" stroke="#a78bfa" stroke-width="2.5" class="flow"/>
+        <text x="320" y="185" font-size="12.5" class="dt">priming shrinks the air gap</text>
+      </g>
+      <g>
+        <rect x="80" y="226" width="480" height="52" rx="12" fill="#f59e0b0d" stroke="#f59e0b55" stroke-dasharray="6 4"/>
+        <text x="320" y="248" text-anchor="middle" font-size="12.5" class="dm"><tspan font-weight="800" fill="#f59e0b">EXAMPLE</tspan> — referenced setup primed <tspan class="dt">10 units → 2 units → 1 unit</tspan> until drops appeared</text>
+        <text x="320" y="268" text-anchor="middle" font-size="12" class="dm">not a universal rule — follow your pen manufacturer's instructions</text>
+      </g>
+    </svg>
+    <p class="d-cap">No drops, no injection. <strong>Priming is how you verify</strong> the pathway is liquid-filled before every use.</p>
+  </div>
+
+  <!-- 07 -->
+  <section class="chapter" id="ch7">
+    <div class="ch-head"><span class="ch-num">07</span><h2>Using the dose dial</h2></div>
+    <p class="ch-sub">Twist, check, inject. Try the dial below.</p>
+    <div class="card rv">
+      <div class="dial-wrap">
+        <div class="dial" role="img" aria-label="Interactive dose dial demonstration">
+          <div class="dial-face"></div>
+          <div class="dial-pointer" id="dialPointer" style="transform:rotate(0deg)"></div>
+          <div class="dial-hub" id="dialHub">0</div>
+        </div>
+        <div class="dial-ctrl">
+          <div class="dial-btns">
+            <button id="dialMinus" aria-label="Decrease dose">−</button>
+            <button id="dialPlus" aria-label="Increase dose">+</button>
+          </div>
+          <p class="dial-read">Selected: <strong><span id="dialVal">0</span> units</strong></p>
+          <p style="font-size:13.5px; max-width:30ch">Once assembled and primed, the dial selects your dose. <strong>Overshot?</strong> Many pens let you dial back down — <strong>check your device</strong>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card rv" style="margin-top:16px; border:2px solid #f87171">
+      <p class="bigline" style="color:#f87171; text-align:center">⚠️ UNITS ≠ MILLIGRAMS</p>
+      <p style="text-align:center; max-width:60ch; margin:8px auto 0">A "unit" is a <strong>pen setting</strong>, not a weight. The actual amount delivered depends on the <strong>concentration of the solution</strong> and the <strong>pen's dosing mechanism</strong>.</p>
+      <p style="text-align:center; font-size:15px; margin-top:10px"><strong>Concentration</strong> + <strong>pen calibration</strong> + <strong>selected units</strong> → <strong>actual amount delivered</strong></p>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section class="chapter" id="ch8">
+    <div class="ch-head"><span class="ch-num">08</span><h2>Concentration math</h2></div>
+    <p class="ch-sub">Why the same dial number can mean different amounts.</p>
+    <div class="card rv">
+      <p class="bigline" style="text-align:center">Amount of drug = <span class="hl-a">Concentration</span> × <span class="hl-b">Volume</span></p>
+      <p style="text-align:center; max-width:62ch; margin:10px auto 0">Two cartridges can hold the <strong>same volume</strong> at <strong>different concentrations</strong>. So the same number of pen units doesn't necessarily deliver the same amount of active ingredient — across concentrations <em>or</em> across devices.</p>
+    </div>
+    <div class="calc rv" style="margin-top:16px">
+      <span class="tier ex">Fictional example — not dosing advice</span>
+      <h3 style="font-size:17px">Try it: see how concentration changes the result</h3>
+      <label for="calcConc">Select concentration (fictional)</label>
+      <select id="calcConc">
+        <option value="5">5 mg/mL (example)</option>
+        <option value="10" selected>10 mg/mL (example)</option>
+        <option value="20">20 mg/mL (example)</option>
+      </select>
+      <label for="calcUnits">Select pen setting: <strong id="calcUnitsLab" style="color:var(--pa)">20 units</strong></label>
+      <input type="range" id="calcUnits" min="0" max="60" step="1" value="20">
+      <div class="calc-out">
+        <p>Example pen: <strong>100 units = 1 mL</strong> → 20 units = <strong>0.20 mL</strong></p>
+        <p style="margin-top:8px">10 mg/mL × 0.20 mL = <span class="bignum" id="calcOut">2.0 mg</span> <span style="font-size:13px">(fictional)</span></p>
+        <p style="font-size:13px; margin-top:8px">Same 20 units at 5 mg/mL would be 1.0 mg; at 20 mg/mL it would be 4.0 mg. <strong>Units alone tell you nothing without concentration.</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section class="chapter" id="ch9">
+    <div class="ch-head"><span class="ch-num">09</span><h2>Common mistakes</h2></div>
+    <p class="ch-sub">Don't do this.</p>
+    <div class="dont-grid">
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Filling too quickly</strong>Creates bubbles and pressure. Slow wins.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Ignoring the vent</strong>No air escape → pressure problems and messy fills.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Using an incompatible cartridge</strong>"3 mL" is a size, not a guarantee it fits your pen.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Assuming every pen uses the same unit system</strong>Units are device-specific. Check yours.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Confusing pen units with mg</strong>Units ≠ milligrams. See chapter 8.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Skipping priming</strong>No drops at the needle = air in the pathway.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Reusing needles</strong>Every injection gets a fresh pen needle.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Using a damaged cartridge</strong>Cracks, leaks, or odd bubbles? Stop and replace.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Failing to check the concentration</strong>The dial can't do this check for you.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Trusting a random online dosing chart</strong>Verify the actual concentration and your actual device instead.</div></div>
+      <div class="dont rv"><span class="dx">✕</span><div><strong>Using a cartridge that looks off</strong>Contaminated, damaged, leaking, or abnormal — retire it.</div></div>
+    </div>
+  </section>
+
+  <!-- 10 -->
+  <section class="chapter" id="ch10">
+    <div class="ch-head"><span class="ch-num">10</span><h2>Safety checklist</h2></div>
+    <p class="ch-sub">Tap each item as you verify it.</p>
+    <div class="checklist rv" id="safetyCheck">
+      <label class="chk"><input type="checkbox"><span><strong>Clean preparation area</strong> — wiped down, uncluttered.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Verify the medication/container</strong> — right product, intact.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Verify concentration</strong> — know the mg/mL before anything else.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Confirm cartridge compatibility</strong> — made for this pen.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Confirm pen compatibility</strong> — right model, working mechanism.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Inspect cartridge</strong> — no leaks, cracks, or odd bubbles.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Prime per device instructions</strong> — drops at the needle.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Confirm dose setting</strong> — dial matches your intent.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Use a fresh injection needle</strong> — new, single-use.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Dispose of sharps properly</strong> — puncture-proof container.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Store medication correctly</strong> — per its specific requirements.</span></label>
+      <label class="chk"><input type="checkbox"><span><strong>Stop if something looks wrong</strong> — verify before proceeding.</span></label>
+      <div class="chk-progress"><span id="chkLabel">0 of 12 verified</span><div class="chk-bar"><span id="chkFill"></span></div></div>
+    </div>
+    <div class="warn rv"><strong>When in doubt:</strong> check the manufacturer's instructions, or ask a qualified healthcare professional or pharmacist.</div>
+  </section>
+
+  <!-- 11 -->
+  <section class="chapter" id="ch11">
+    <div class="ch-head"><span class="ch-num">11</span><h2>Before you use your new pen</h2></div>
+    <p class="ch-sub">First-use checklist — once per device.</p>
+    <div class="step rv"><span class="sn">1</span><div><h3>🔧 Test the mechanism</h3><p>Twist the dial through its range. It should <strong>move smoothly and click cleanly</strong> at each setting.</p></div></div>
+    <div class="step rv"><span class="sn">2</span><div><h3>🫙 Verify the cartridge seats properly</h3><p>The cartridge should sit <strong>snugly and securely</strong> in its holder — no wobble, no forcing.</p></div></div>
+    <div class="step rv"><span class="sn">3</span><div><h3>🎯 Verify the dose mechanism</h3><p>Confirm the <strong>displayed units match the device's documentation</strong> for what each click delivers.</p></div></div>
+    <div class="step rv"><span class="sn">4</span><div><h3>💧 Check for leaks</h3><p>Inspect the <strong>cartridge and pen assembly</strong> for any seepage at the seals or needle joint.</p></div></div>
+    <div class="step rv"><span class="sn">5</span><div><h3>💨 Confirm priming</h3><p>Prime <strong>per the manufacturer's instructions</strong> and confirm liquid reaches the needle.</p></div></div>
+    <div class="step rv"><span class="sn">6</span><div><h3>📍 Use a fresh needle</h3><p>Never assume a needle from another device is interchangeable. <strong>New pen needle, every time.</strong></p></div></div>
+  </section>
+
+  <!-- 12 -->
+  <section class="chapter" id="ch12">
+    <div class="ch-head"><span class="ch-num">12</span><h2>Travel</h2></div>
+    <p class="ch-sub">The compact kit — and what to check before you fly.</p>
+    <div class="card pb rv">
+      <h3>✈️ The travel kit</h3>
+      <p><strong>Pen + cartridge + pen needles + alcohol swabs + a sharps solution</strong> (a travel sharps container or a plan for safe disposal at your destination).</p>
+    </div>
+    <div class="grid c2" style="margin-top:14px">
+      <div class="card rv"><h3>🌡️ Storage &amp; temperature</h3><p>Medication storage requirements <strong>vary by product</strong> — heat and freezing can both be problems. Check your product's specifics.</p></div>
+      <div class="card rv"><h3>🛂 Rules &amp; regulations</h3><p>Airline and security rules plus <strong>local regulations</strong> at your destination. What's fine at home may not be fine elsewhere.</p></div>
+    </div>
+    <div class="warn rv"><strong>Don't assume uniformity.</strong> Not all peptide products share the same storage or transportation requirements — verify for your specific product.</div>
+  </section>
+
+  <!-- 13 -->
+  <section class="chapter" id="ch13">
+    <div class="ch-head"><span class="ch-num">13</span><h2>USA vs Alibaba</h2></div>
+    <p class="ch-sub">Where people look for pens and cartridges — neutrally framed.</p>
+    <div class="grid c2">
+      <div class="card pa rv">
+        <span class="tier info">General info</span>
+        <h3>🇺🇸 Need it quickly? — USA</h3>
+        <p><strong>Potential advantages:</strong></p>
+        <ul><li>Faster shipping</li><li>Easier returns and support, depending on the seller</li><li>Potentially easier verification of product specifications</li></ul>
+      </div>
+      <div class="card pb rv">
+        <span class="tier info">General info</span>
+        <h3>🌏 Planning ahead? — Alibaba</h3>
+        <p><strong>Potential advantages:</strong></p>
+        <ul><li>Potentially lower prices</li><li>More supplier options</li></ul>
+      </div>
+    </div>
+    <div class="warn rv"><strong>Verify before you buy.</strong> Check the <strong>seller, specifications, compatibility, materials, reviews, and return policy</strong> first. Lower prices don't mean equivalent quality — and no sourcing choice guarantees it.</div>
+  </section>
+
+  <style>
+  .wf-stage{animation:wf-cycle 18s ease-in-out infinite}
+  @keyframes wf-cycle{0%,100%{border-color:var(--line); box-shadow:none}2%,8%{border-color:var(--pa); box-shadow:0 0 18px #a78bfa33}12%{border-color:var(--line); box-shadow:none}}
+  @media (prefers-reduced-motion: reduce){ .wf-stage{animation:none} }
+  </style>
+  <div class="diagram rv">
+    <p class="d-title">The complete workflow — tap each stage</p>
+    <div class="wf" id="wf">
+      <div class="wf-stage" style="animation-delay:0s"><span class="wn">1</span><div><h3>Vial</h3><p class="wx">Start with your medication vial — cleaned, checked, and verified.</p></div></div>
+      <div class="wf-stage" style="animation-delay:2s"><span class="wn">2</span><div><h3>Draw</h3><p class="wx">Draw the required amount of liquid with the transfer syringe.</p></div></div>
+      <div class="wf-stage" style="animation-delay:4s"><span class="wn">3</span><div><h3>Fill cartridge</h3><p class="wx">Fill slowly, with the filling needle beside the vent.</p></div></div>
+      <div class="wf-stage" style="animation-delay:6s"><span class="wn">4</span><div><h3>Vent air</h3><p class="wx">Let displaced air escape through the vent — never force it.</p></div></div>
+      <div class="wf-stage" style="animation-delay:8s"><span class="wn">5</span><div><h3>Install cartridge</h3><p class="wx">Seat the filled cartridge in its holder and secure it in the pen.</p></div></div>
+      <div class="wf-stage" style="animation-delay:10s"><span class="wn">6</span><div><h3>Prime</h3><p class="wx">Clear the air gap until drops appear at the needle tip.</p></div></div>
+      <div class="wf-stage" style="animation-delay:12s"><span class="wn">7</span><div><h3>Dial</h3><p class="wx">Select your dose on the dial — then double-check it.</p></div></div>
+      <div class="wf-stage" style="animation-delay:14s"><span class="wn">8</span><div><h3>Inject</h3><p class="wx">Use a fresh pen needle, per appropriate instructions.</p></div></div>
+      <div class="wf-stage" style="animation-delay:16s"><span class="wn">9</span><div><h3>Dispose of needle</h3><p class="wx">Sharps container, every time — needles are never reused.</p></div></div>
+    </div>
+    <p class="d-cap">The whole journey on one screen — <strong>tap any stage</strong> for its one-line summary.</p>
+  </div>
+
+  <!-- 14 -->
+  <section class="chapter" id="ch14">
+    <div class="ch-head"><span class="ch-num">14</span><h2>Quick reference</h2></div>
+    <p class="ch-sub">The entire guide on one cheat sheet.</p>
+    <div class="cheat">
+      <div class="ch rv"><h3>Before filling</h3><p><strong>Clean → Check → Prepare</strong></p><p>Workspace, vial top, cartridge top — aseptic technique.</p></div>
+      <div class="ch rv"><h3>Filling</h3><p><strong>Vent → Draw → Fill slowly → Inspect</strong></p><p>Air escapes while liquid enters. Check for leaks and bubbles.</p></div>
+      <div class="ch rv"><h3>Assembly</h3><p><strong>Install cartridge → Secure → Attach needle</strong></p><p>Compatible parts only. Needle goes on last.</p></div>
+      <div class="ch rv"><h3>Priming</h3><p><strong>Prime per device instructions → Confirm liquid reaches needle</strong></p><p>No drops, no injection.</p></div>
+      <div class="ch rv"><h3>Dosing</h3><p><strong>Verify concentration → Select setting → Double-check</strong></p><p>Units ≠ milligrams. Ever.</p></div>
+      <div class="ch rv"><h3>Injection</h3><p><strong>Fresh needle → Inject per appropriate instructions</strong></p><p>Single-use needles, every time.</p></div>
+      <div class="ch rv"><h3>After</h3><p><strong>Dispose of needle → Store appropriately</strong></p><p>Sharps container; store per product requirements.</p></div>
+    </div>
+  </section>
+
+  <!-- 15 -->
+  <section class="chapter" id="ch15">
+    <div class="ch-head"><span class="ch-num">✦</span><h2>Quick quiz</h2></div>
+    <p class="ch-sub">One question — what stuck with you?</p>
+    <div class="card quiz rv" id="quizCard">
+      <button class="quiz-toggle" id="quizToggle" aria-expanded="false"><span>How useful was this guide?</span><span class="quiz-chev">+</span></button>
+      <div class="quiz-body"><div class="quiz-inner">
+        <div class="quiz-options" id="quizOpts" role="group" aria-label="Rate this guide">
+          <button data-v="3">🤯 Very useful <small>changed how I see it</small></button>
+          <button data-v="2">👍 Useful <small>cleared things up</small></button>
+          <button data-v="1">🙂 Okay <small>does the job</small></button>
+        </div>
+        <p class="quiz-thanks" id="quizThanks" hidden></p>
+        <div class="quiz-results" id="quizResults" hidden>
+          <p class="qr-head"><span id="qrTotal"></span> · <span>votes stay in this browser</span></p>
+          <div id="qrRows"></div>
+        </div>
+      </div></div>
+    </div>
+  </section>
+
+  <div class="totop-wrap rv">
+    <button class="totop" id="toTop" aria-label="Back to the top"><span class="tt-arrow">↑</span><span>Back to the top</span></button>
+  </div>
+
+</div><!-- /wrap -->
+<footer>
+  <div class="wrap">
+    <div class="disclaimer"><strong>📋 Please note:</strong> this guide explains refillable pen systems in general educational terms. It isn't medical advice, doesn't recommend any product or treatment, and isn't affiliated with any seller or manufacturer. Concentrations, devices, and procedures vary — always follow your specific manufacturer's instructions and consult a qualified professional when unsure.</div>
+    <p><strong>Peptide Refillable Pens Guide</strong> — same medication, different workflow. Understand the device before you use it.</p>
+  </div>
+</footer>
+</main>
+</div><!-- /shell -->
+<script>
+const $=id=>document.getElementById(id);
+const REDUCED=matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* ambient dots */
+(function(){
+  const c=$('bg-dots'),x=c.getContext('2d');
+  const COLS=['#a78bfa','#22d3ee','#c4b5fd','#67e8f9','#f0abfc','#a3e635'];
+  let W,H,D;
+  function size(){W=c.width=innerWidth;H=c.height=innerHeight;}
+  size(); addEventListener('resize',size);
+  D=Array.from({length:140},()=>({x:Math.random()*W,y:Math.random()*H,r:1.4+Math.random()*2.2,o:.30+Math.random()*.35,ph:Math.random()*6.28,sp:.004+Math.random()*.008,c:COLS[Math.random()*COLS.length|0]}));
+  (function tick(t){
+    x.clearRect(0,0,W,H);
+    for(const d of D){
+      const tw=.6+.4*Math.sin(t*d.sp+d.ph);
+      x.globalAlpha=d.o*tw; x.fillStyle=d.c;
+      x.beginPath(); x.arc(d.x,d.y,d.r,0,6.28); x.fill();
+    }
+    x.globalAlpha=1;
+    if(!REDUCED) requestAnimationFrame(tick);
+  })(0);
+})();
+/* reveal on scroll */
+(function(){
+  const els=document.querySelectorAll('.rv');
+  if(REDUCED||!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return;}
+  const o=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target);}}),{threshold:.08});
+  els.forEach(e=>o.observe(e));
+})();
+/* smooth scrolling */
+let scrollAnim=null;
+function smoothTo(t){
+  const doc=document.documentElement;
+  const sy=scrollY, ey=Math.max(0,t.getBoundingClientRect().top+sy-8), d=ey-sy;
+  cancelAnimationFrame(scrollAnim);
+  if(REDUCED||Math.abs(d)<4){ scrollTo(0,ey); return; }
+  const prev=doc.style.scrollBehavior; doc.style.scrollBehavior='auto';
+  const dur=Math.min(1100,420+Math.abs(d)*.32), t0=performance.now();
+  const ez=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+  const clean=()=>{ doc.style.scrollBehavior=prev; removeEventListener('wheel',ou); removeEventListener('touchmove',ou); };
+  const ou=()=>{ cancelAnimationFrame(scrollAnim); clean(); };
+  addEventListener('wheel',ou,{passive:true}); addEventListener('touchmove',ou,{passive:true});
+  function fr(now){
+    const p=Math.min(1,(now-t0)/dur);
+    scrollTo(0,sy+d*ez(p));
+    if(p<1) scrollAnim=requestAnimationFrame(fr); else clean();
+  }
+  scrollAnim=requestAnimationFrame(fr);
+}
+/* sidebar links + gliding indicator */
+(function(){
+  const links=[...document.querySelectorAll('#chapternav a')];
+  const ind=$('sideIndicator');
+  function moveIndicator(act){
+    if(!act){ ind.style.opacity=0; return; }
+    ind.style.opacity=1;
+    ind.style.top=(act.offsetTop+4)+'px';
+    ind.style.height=(act.offsetHeight-8)+'px';
+  }
+  function activate(id,link){
+    links.forEach(l=>l.classList.toggle('active',l===link));
+    moveIndicator(link);
+    document.querySelectorAll('#mrail a').forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+id));
+    if(history.replaceState) history.replaceState(null,'','#'+id);
+  }
+  links.forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t) smoothTo(t);
+      activate(a.getAttribute('href').slice(1),a);
+      if(innerWidth<=900) close();
+    });
+  });
+  document.querySelectorAll('#mrail a').forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t) smoothTo(t);
+    });
+  });
+  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        const id=e.target.id;
+        const link=links.find(l=>l.getAttribute('href')==='#'+id);
+        if(link) activate(id,link);
+      }
+    });
+  },{rootMargin:'-40% 0px -55% 0px'});
+  secs.forEach(s=>obs.observe(s));
+  addEventListener('resize',()=>{const a=links.find(l=>l.classList.contains('active'));moveIndicator(a||null);});
+})();
+/* mobile drawer */
+function close(){document.body.classList.remove('side-open');}
+(function(){
+  $('menuBtn').onclick=()=>document.body.classList.add('side-open');
+  $('sideBackdrop').onclick=close;
+  addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+})();
+/* reading progress */
+(function(){
+  const f=$('progressFill'), sf=$('sideFill'), sp=$('sidePct');
+  function upd(){
+    const h=document.documentElement;
+    const max=h.scrollHeight-h.clientHeight;
+    const p=max>0?Math.min(1,scrollY/max):0;
+    f.style.width=(p*100)+'%';
+    sf.style.width=(p*100)+'%';
+    sp.textContent=Math.round(p*100)+'%';
+  }
+  addEventListener('scroll',upd,{passive:true}); upd();
+})();
+/* theme */
+(function(){
+  const b=$('themeBtn');
+  const dark=()=>!document.documentElement.hasAttribute('data-theme');
+  function paint(){ b.textContent=dark()?'🌙':'☀️'; b.setAttribute('aria-label',dark()?'Switch to light mode':'Switch to dark mode'); }
+  b.onclick=()=>{
+    if(dark()) document.documentElement.setAttribute('data-theme','light');
+    else document.documentElement.removeAttribute('data-theme');
+    try{localStorage.setItem('penpals-theme',dark()?'dark':'light');}catch(e){}
+    paint(); b.classList.add('dim');
+  };
+  paint();
+})();
+/* dose dial */
+(function(){
+  let units=0;
+  const ptr=$('dialPointer'), hub=$('dialHub'), val=$('dialVal');
+  function render(){
+    ptr.style.transform='rotate('+(units*6)+'deg)';
+    hub.textContent=units; val.textContent=units;
+  }
+  $('dialPlus').onclick=()=>{ if(units<60){units++;render();} };
+  $('dialMinus').onclick=()=>{ if(units>0){units--;render();} };
+  render();
+})();
+/* concentration calculator */
+(function(){
+  const conc=$('calcConc'), units=$('calcUnits'), lab=$('calcUnitsLab'), out=$('calcOut');
+  const outWrap=out.closest('.calc-out');
+  function render(){
+    const c=parseFloat(conc.value), u=parseInt(units.value,10);
+    const vol=u/100, amt=c*vol;
+    lab.textContent=u+' units';
+    outWrap.querySelector('p').innerHTML='Example pen: <strong>100 units = 1 mL</strong> → '+u+' units = <strong>'+vol.toFixed(2)+' mL</strong>';
+    outWrap.querySelectorAll('p')[1].innerHTML=c+' mg/mL × '+vol.toFixed(2)+' mL = <span class="bignum">'+amt.toFixed(1)+' mg</span> <span style="font-size:13px">(fictional)</span>';
+  }
+  conc.onchange=render; units.oninput=render; render();
+})();
+/* safety checklist */
+(function(){
+  const box=$('safetyCheck'); if(!box) return;
+  const items=[...box.querySelectorAll('.chk input')];
+  const label=$('chkLabel'), fill=$('chkFill');
+  function render(){
+    const n=items.filter(i=>i.checked).length;
+    label.textContent=n+' of '+items.length+' verified';
+    fill.style.width=(n/items.length*100)+'%';
+    items.forEach(i=>i.closest('.chk').classList.toggle('done',i.checked));
+  }
+  items.forEach(i=>i.addEventListener('change',render));
+  render();
+})();
+/* workflow stages */
+document.querySelectorAll('.wf-stage').forEach(st=>{
+  st.addEventListener('click',()=>{
+    const was=st.classList.contains('open');
+    document.querySelectorAll('.wf-stage.open').forEach(o=>o.classList.remove('open'));
+    if(!was) st.classList.add('open');
+  });
+});
+/* back to top */
+(function(){
+  const btn=$('toTop'); if(!btn) return;
+  btn.onclick=()=>{
+    const sy=scrollY;
+    cancelAnimationFrame(scrollAnim);
+    if(REDUCED||sy<4){ scrollTo(0,0); return; }
+    const dur=Math.min(1100,420+sy*.32), t0=performance.now();
+    const ez=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+    function fr(now){
+      const p=Math.min(1,(now-t0)/dur);
+      scrollTo(0,sy*(1-ez(p)));
+      if(p<1) scrollAnim=requestAnimationFrame(fr);
+    }
+    scrollAnim=requestAnimationFrame(fr);
+  };
+})();
+/* rating quiz */
+(function(){
+  const KEY='penpals-quiz-votes', card=$('quizCard');
+  const labels={3:'Very useful',2:'Useful',1:'Okay'};
+  let votes={}; try{votes=JSON.parse(localStorage.getItem(KEY)||'{}');}catch(e){votes={};}
+  $('quizToggle').onclick=()=>{
+    const open=card.classList.toggle('open');
+    $('quizToggle').setAttribute('aria-expanded',open);
+  };
+  function render(){
+    const total=Object.values(votes).reduce((a,b)=>a+b,0);
+    $('qrTotal').textContent=total+(total===1?' vote':' votes');
+    $('qrRows').innerHTML=[3,2,1].map(v=>{
+      const n=votes[v]||0, pct=total?Math.round(n/total*100):0;
+      return '<div class="qr-row"><span class="qr-label">'+labels[v]+'</span><span class="qr-bar"><span style="width:'+pct+'%"></span></span><span class="qr-pct">'+n+' · '+pct+'%</span></div>';
+    }).join('');
+  }
+  $('quizOpts').querySelectorAll('button').forEach(b=>{
+    b.onclick=()=>{
+      const v=b.dataset.v;
+      votes[v]=(votes[v]||0)+1;
+      try{localStorage.setItem(KEY,JSON.stringify(votes));}catch(e){}
+      document.querySelectorAll('#quizOpts button').forEach(x=>x.classList.remove('picked'));
+      b.classList.add('picked');
+      const th=$('quizThanks');
+      th.innerHTML='Thanks — you rated this guide <strong>'+labels[v].toLowerCase()+'</strong>.';
+      th.hidden=false;
+      $('quizResults').hidden=false;
+      render();
+    };
+  });
+  if(Object.keys(votes).length){ $('quizResults').hidden=false; render(); }
+})();
+</script>
+</body>
+</html>
